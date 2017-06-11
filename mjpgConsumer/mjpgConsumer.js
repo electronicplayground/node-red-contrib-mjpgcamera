@@ -4,11 +4,9 @@ var Stream = require('stream');
 
 /**
  *  @param {Object} options
- *    @param {String=} options.path
- *    @param {Function=} options.filename
  *    @param {Function=} options.transform
  *    @param {String=} options.ext
- *    @param {Boolean=} options.sync
+ *    @param {Boolean=} options.onData
  *    @param {Object=} options.context
  */
 
@@ -17,7 +15,6 @@ function StreamPipe(options) {
 
   this.transform = options.transform || function(data) { return data; };
 
-  this.sync = options.sync;
   this.writable = true;
   this.context = options.context;
   this.filter = options.filter || function() { return true; };
@@ -57,9 +54,7 @@ module.exports = function(RED) {
         var node = this;
         var streamPipe;
         var camera;
-        var isRecording = false;
         var sendData = false;
-      //  var captureCount=0;
 
         this.on('input', function(msg) {
           console.log("input");
@@ -97,12 +92,11 @@ module.exports = function(RED) {
                 url: config.stream,
                 motion: false
               });
-              startRecording();
             }
 
            if (msg.payload == true){
-             console.log("pipe");
-               startRecording();
+
+              startRecording();
             // Pipe frames to our fileWriter so we gather jpeg frames into the /frames folder
               camera.pipe(streamPipe);
               sendData = true;
