@@ -58,6 +58,7 @@ module.exports = function(RED) {
         var streamPipe;
         var camera;
         var isRecording = false;
+        var sendData = false;
       //  var captureCount=0;
 
         this.on('input', function(msg) {
@@ -67,13 +68,20 @@ module.exports = function(RED) {
               console.log("create streampipe");
               streamPipe = new StreamPipe({
                     transform: function(frame) {
-                      console.log(frame);
+                      //console.log(frame);
                       return frame.data;
                     },
                     onData: function(data){
-                      console.log("ondata");
-                      console.log(data);
-                      node.send(data);
+                      //console.log("ondata");
+                      //console.log(data);
+                      console.log(sendData);
+                      if (sendData == true)
+                        console.log("send data");
+                        var msg = {};
+                        msg.payload = data;
+                        node.send(msg);
+                        sendData = false;
+                        stopRecording();
                     }
                   });
             }
@@ -94,12 +102,15 @@ module.exports = function(RED) {
 
            if (msg.payload == true){
              console.log("pipe");
+               startRecording();
             // Pipe frames to our fileWriter so we gather jpeg frames into the /frames folder
               camera.pipe(streamPipe);
-              startRecording();
+              sendData = true;
+              //startRecording();
             }
             else {
               stopRecording();
+              sendData = false;
             }
 
             //node.send(msg);
