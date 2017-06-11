@@ -55,6 +55,7 @@ module.exports = function(RED) {
         var streamPipe;
         var camera;
         var sendData = false;
+        var isCameraOn = false;
 
         this.on('input', function(msg) {
           console.log("input");
@@ -76,7 +77,7 @@ module.exports = function(RED) {
                         msg.payload = data;
                         node.send(msg);
                         sendData = false;
-                        stopRecording();
+                        stopCamera();
                     }
                   });
             }
@@ -96,27 +97,27 @@ module.exports = function(RED) {
 
            if (msg.payload == true){
 
-              startRecording();
+              startCamera();
             // Pipe frames to our fileWriter so we gather jpeg frames into the /frames folder
               camera.pipe(streamPipe);
               sendData = true;
               //startRecording();
             }
             else {
-              stopRecording();
+              stopCamera();
               sendData = false;
             }
 
             //node.send(msg);
         });
 
-        var startRecording = function(){
+        var startCamera = function(){
 
-            if (isRecording)
+            if (isCameraOn)
                 return;
 
             console.log("start recording");
-            isRecording = true;
+            isCameraOn = true;
 
             camera.start();
 
@@ -126,10 +127,10 @@ module.exports = function(RED) {
             }, 5000);*/
         }
 
-        var stopRecording = function(){
+        var stopCamera = function(){
           console.log("stop recording")
           camera.stop();
-          isRecording = false;
+          isCameraOn = false;
         }
 
         this.on('close', function(){
