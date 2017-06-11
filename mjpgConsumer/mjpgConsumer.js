@@ -1,7 +1,7 @@
 var MjpegCamera = require('mjpeg-camera');
-//var util = require('util');
-//var Stream = require('stream');
-/*
+var util = require('util');
+var Stream = require('stream');
+
 /**
  *  @param {Object} options
  *    @param {String=} options.path
@@ -11,7 +11,7 @@ var MjpegCamera = require('mjpeg-camera');
  *    @param {Boolean=} options.sync
  *    @param {Object=} options.context
  */
- /*
+
 function StreamPipe(options) {
   options = options || {};
 
@@ -33,9 +33,9 @@ StreamPipe.prototype.write = function(data) {
   // Transform the data before write
   var transformedData = this.transform.call(this.context, data);
   // Write data
-  if (onData != null)
+  if (this.onData != null && this.onData != undefined)
   {
-    onData(transformedData);
+    this.onData.call(this.context,transformedData);
   }
 };
 
@@ -47,7 +47,7 @@ StreamPipe.prototype.end = function(data) {
 
 StreamPipe.prototype.destroy = function() {
   this.writable = false;
-};*/
+};
 
 
 
@@ -61,8 +61,11 @@ module.exports = function(RED) {
       //  var captureCount=0;
 
         this.on('input', function(msg) {
+          console.log("input");
+
             if (streamPipe == null){
-            /*  streamPipe = new StreamPipe({
+              console.log("create streampipe");
+              streamPipe = new StreamPipe({
                     transform: function(frame) {
                       console.log(frame);
                       return frame.data;
@@ -70,8 +73,9 @@ module.exports = function(RED) {
                     onData: function(data){
                       console.log("ondata");
                       console.log(data);
+                      node.send(data);
                     }
-                  });*/
+                  });
             }
 
             if (camera == null){
@@ -85,13 +89,14 @@ module.exports = function(RED) {
                 url: config.stream,
                 motion: false
               });
+              startRecording();
             }
 
            if (msg.payload == true){
-
+             console.log("pipe");
             // Pipe frames to our fileWriter so we gather jpeg frames into the /frames folder
               camera.pipe(streamPipe);
-
+              startRecording();
             }
             else {
               stopRecording();
