@@ -93,8 +93,6 @@ module.exports = function(RED) {
                 url: config.stream,
                 motion: false
               });
-
-              camera.pipe(streamPipe);
             }
 
            if (msg.payload == true){
@@ -122,7 +120,7 @@ module.exports = function(RED) {
             isCameraOn = true;
 
             camera.start();
-
+            camera.pipe(streamPipe);
 
             /*setTimeout(() => {
             child.kill(); // does not terminate the node process in the shell
