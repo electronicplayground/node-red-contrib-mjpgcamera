@@ -58,82 +58,64 @@ module.exports = function(RED) {
         var isCameraOn = false;
 
         this.on('input', function(msg) {
-          console.log("input");
-
-            if (streamPipe == null){
+           if (streamPipe == null){
               console.log("create streampipe");
               streamPipe = new StreamPipe({
                     transform: function(frame) {
                       //console.log(frame);
                       return frame.data;
                     },
-                    onData: function(data){
-                      //console.log("ondata");
-                      //console.log(data);
-                      console.log(sendData);
-                      if (sendData == true){
-                        console.log("send data");
-                        var msg = {};
-                        msg.payload = data;
-                        node.send(msg);
-                        console.log("Send");
-                        sendData = false;
-                      }
-
-                      //  stopCamera();
-                    }
+                    onData: pipeFrame
                   });
             }
 
             if (camera == null){
               // Create an MjpegCamera instance
               camera = new MjpegCamera({
-                /*name: 'backdoor',
-                user: 'admin',
-                password: 'wordup',
-                url: 'http://192.168.7.1/video',
-                motion: true*/
                 url: config.stream,
                 motion: false
               });
-                startCamera();
+
+            }
+
+            if (msg.payload == "start"){
+              startCamera();
               camera.pipe(streamPipe);
-            }
-
-           if (msg.payload == true){
-
-            //  startCamera();
-            // Pipe frames to our fileWriter so we gather jpeg frames into the /frames folder
-
               sendData = true;
-              //startRecording();
             }
-            else {
-            //  stopCamera();
+
+            if (msg.payload == "stop"){
+              stopCamera();
               sendData = false;
             }
 
-            //node.send(msg);
+           if (msg.payload == true){
+              sendData = true;
+            }
+            else {
+              sendData = false;
+            }
         });
+
+        var pipeFrame = function(data){
+          if (sendData == true){
+            var msg = {};
+            msg.payload = data;
+            node.send(msg);
+            sendData = false;
+          }
+        }
 
         var startCamera = function(){
 
             if (isCameraOn == true)
                 return;
 
-            console.log("start recording");
             isCameraOn = true;
-
             camera.start();
-
-
-            /*setTimeout(() => {
-            child.kill(); // does not terminate the node process in the shell
-            }, 5000);*/
         }
 
         var stopCamera = function(){
-          console.log("stop recording")
           camera.stop();
           isCameraOn = false;
         }
