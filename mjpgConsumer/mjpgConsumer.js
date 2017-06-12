@@ -71,13 +71,16 @@ module.exports = function(RED) {
                       //console.log("ondata");
                       //console.log(data);
                       console.log(sendData);
-                      if (sendData == true)
+                      if (sendData == true){
                         console.log("send data");
                         var msg = {};
                         msg.payload = data;
                         node.send(msg);
+                        console.log("Send");
                         sendData = false;
-                        stopCamera();
+                      }
+
+                      //  stopCamera();
                     }
                   });
             }
@@ -93,19 +96,20 @@ module.exports = function(RED) {
                 url: config.stream,
                 motion: false
               });
+                startCamera();
               camera.pipe(streamPipe);
             }
 
            if (msg.payload == true){
 
-              startCamera();
+            //  startCamera();
             // Pipe frames to our fileWriter so we gather jpeg frames into the /frames folder
 
               sendData = true;
               //startRecording();
             }
             else {
-              stopCamera();
+            //  stopCamera();
               sendData = false;
             }
 
@@ -114,7 +118,7 @@ module.exports = function(RED) {
 
         var startCamera = function(){
 
-            if (isCameraOn)
+            if (isCameraOn == true)
                 return;
 
             console.log("start recording");
