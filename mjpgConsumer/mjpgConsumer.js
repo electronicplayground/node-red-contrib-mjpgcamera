@@ -93,13 +93,14 @@ module.exports = function(RED) {
                 url: config.stream,
                 motion: false
               });
+              camera.pipe(streamPipe);
             }
 
            if (msg.payload == true){
 
               startCamera();
             // Pipe frames to our fileWriter so we gather jpeg frames into the /frames folder
-              camera.pipe(streamPipe);
+
               sendData = true;
               //startRecording();
             }
