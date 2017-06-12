@@ -99,7 +99,7 @@ module.exports = function(RED) {
 
               startCamera();
             // Pipe frames to our fileWriter so we gather jpeg frames into the /frames folder
-
+              camera.pipe(streamPipe);
               sendData = true;
               //startRecording();
             }
@@ -120,7 +120,7 @@ module.exports = function(RED) {
             isCameraOn = true;
 
             camera.start();
-            camera.pipe(streamPipe);
+
 
             /*setTimeout(() => {
             child.kill(); // does not terminate the node process in the shell
