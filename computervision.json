@@ -1,99 +1,228 @@
 [
     {
-        "id": "ed3764de.c78738",
+        "id": "662f0303.b7dadc",
         "type": "tab",
-        "label": "Flow 2"
+        "label": "Computer Vision",
+        "disabled": false,
+        "info": ""
     },
     {
-        "id": "9d253173.fc14e",
-        "type": "mjpg-consumer",
-        "z": "ed3764de.c78738",
-        "name": "",
-        "stream": "http://192.168.0.104:8080/?action=stream",
-        "x": 517,
-        "y": 142,
-        "wires": [
-            [
-                "fe8be91c.c55288",
-                "7ba00807.f99d78"
-            ]
-        ]
-    },
-    {
-        "id": "68ff97a8.5eee48",
+        "id": "8bcb86bd.5469e8",
         "type": "inject",
-        "z": "ed3764de.c78738",
+        "z": "662f0303.b7dadc",
         "name": "",
         "topic": "",
         "payload": "true",
         "payloadType": "bool",
-        "repeat": "",
+        "repeat": "10",
         "crontab": "",
         "once": false,
-        "x": 176.5,
-        "y": 137,
+        "x": 161.765625,
+        "y": 113.75,
         "wires": [
             [
-                "9d253173.fc14e"
+                "23fc84de.5e394c"
             ]
         ]
     },
     {
-        "id": "41af6196.e23d7",
-        "type": "debug",
-        "z": "ed3764de.c78738",
+        "id": "13bd586e.8a6fb8",
+        "type": "ui_switch",
+        "z": "662f0303.b7dadc",
         "name": "",
-        "active": true,
-        "console": "false",
-        "complete": "true",
-        "x": 826.5,
-        "y": 456,
-        "wires": []
-    },
-    {
-        "id": "d7c9922.2fa697",
-        "type": "inject",
-        "z": "ed3764de.c78738",
-        "name": "",
+        "label": "switch",
+        "group": "b94790e0.3bebd",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
         "topic": "",
-        "payload": "false",
-        "payloadType": "bool",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "x": 170,
-        "y": 256,
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 118.765625,
+        "y": 242.75,
         "wires": [
             [
-                "9d253173.fc14e"
+                "6d3f8ecf.73955"
             ]
         ]
     },
     {
-        "id": "fe8be91c.c55288",
-        "type": "file",
-        "z": "ed3764de.c78738",
+        "id": "23fc84de.5e394c",
+        "type": "mjpg-consumer",
+        "z": "662f0303.b7dadc",
         "name": "",
-        "filename": "Capture.jpg",
-        "appendNewline": true,
-        "createDir": false,
-        "overwriteFile": "true",
-        "x": 811.5,
-        "y": 206,
-        "wires": []
+        "stream": "http://192.168.0.105:8080/?action=stream",
+        "x": 502.265625,
+        "y": 118.75,
+        "wires": [
+            [
+                "74ca4699.55b158",
+                "8ec9d182.8b54e"
+            ]
+        ]
     },
     {
-        "id": "7ba00807.f99d78",
+        "id": "6d3f8ecf.73955",
+        "type": "function",
+        "z": "662f0303.b7dadc",
+        "name": "Toggle Computer Vision",
+        "func": "if (msg.payload === true)\n    msg.payload = \"start\";\nelse\n    msg.payload = \"stop\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 319.765625,
+        "y": 244.75,
+        "wires": [
+            [
+                "23fc84de.5e394c"
+            ]
+        ]
+    },
+    {
+        "id": "8ec9d182.8b54e",
+        "type": "function",
+        "z": "662f0303.b7dadc",
+        "name": "MakeImageFileName",
+        "func": "// initialise the counter to 0 if it doesn't exist already\nvar count = flow.get('count')||0;\ncount += 1;\n// store the value back\nflow.set('count',count);\n// make it part of the outgoing msg object\n//msg.filename=\"./capture/Capture\"+count+\".jpg\";\nmsg.filename=\"./capture/Capture.jpg\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 644.2733001708984,
+        "y": 214.88118743896484,
+        "wires": [
+            [
+                "b1f5a26c.3b5b9"
+            ]
+        ]
+    },
+    {
+        "id": "74ca4699.55b158",
         "type": "Computer Vision",
-        "z": "ed3764de.c78738",
+        "z": "662f0303.b7dadc",
         "operation": "description",
         "name": "",
-        "x": 493,
-        "y": 437,
+        "x": 717.265625,
+        "y": 116.75,
         "wires": [
             [
-                "41af6196.e23d7"
+                "9b2a4466.824c88",
+                "86a17ec9.f86e7"
             ]
         ]
+    },
+    {
+        "id": "9b2a4466.824c88",
+        "type": "ui_text",
+        "z": "662f0303.b7dadc",
+        "group": "202b47a1.5a76a8",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Description",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 954.765625,
+        "y": 149.75,
+        "wires": []
+    },
+    {
+        "id": "86a17ec9.f86e7",
+        "type": "function",
+        "z": "662f0303.b7dadc",
+        "name": "",
+        "func": "msg.payload = \"I see \"+ msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 926.765625,
+        "y": 234.75,
+        "wires": [
+            [
+                "2219e3db.40cabc"
+            ]
+        ]
+    },
+    {
+        "id": "b1f5a26c.3b5b9",
+        "type": "file",
+        "z": "662f0303.b7dadc",
+        "name": "",
+        "filename": "",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "true",
+        "x": 811.7718276977539,
+        "y": 282.4212875366211,
+        "wires": []
+    },
+    {
+        "id": "2219e3db.40cabc",
+        "type": "mqtt out",
+        "z": "662f0303.b7dadc",
+        "name": "",
+        "topic": "lcd/text",
+        "qos": "",
+        "retain": "",
+        "broker": "e0439e32.6da6e",
+        "x": 1083.765625,
+        "y": 329.75,
+        "wires": []
+    },
+    {
+        "id": "b94790e0.3bebd",
+        "type": "ui_group",
+        "z": "",
+        "name": "Camera Controls",
+        "tab": "c1b73914.51d068",
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "202b47a1.5a76a8",
+        "type": "ui_group",
+        "z": "",
+        "name": "Camera Controls",
+        "tab": "8070ca92.5840f8",
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "e0439e32.6da6e",
+        "type": "mqtt-broker",
+        "z": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": ""
+    },
+    {
+        "id": "c1b73914.51d068",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Vision",
+        "icon": "dashboard"
+    },
+    {
+        "id": "8070ca92.5840f8",
+        "type": "ui_tab",
+        "z": "",
+        "name": "RaspiZeroBot",
+        "icon": "dashboard"
     }
 ]
