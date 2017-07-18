@@ -17,8 +17,8 @@
         "repeat": "10",
         "crontab": "",
         "once": false,
-        "x": 161.765625,
-        "y": 113.75,
+        "x": 220.515625,
+        "y": 110,
         "wires": [
             [
                 "23fc84de.5e394c"
@@ -30,7 +30,7 @@
         "type": "ui_switch",
         "z": "662f0303.b7dadc",
         "name": "",
-        "label": "switch",
+        "label": "Toggle Computer Vision",
         "group": "b94790e0.3bebd",
         "order": 0,
         "width": 0,
@@ -47,8 +47,8 @@
         "offvalueType": "bool",
         "officon": "",
         "offcolor": "",
-        "x": 118.765625,
-        "y": 242.75,
+        "x": 172.515625,
+        "y": 264,
         "wires": [
             [
                 "6d3f8ecf.73955"
@@ -61,8 +61,8 @@
         "z": "662f0303.b7dadc",
         "name": "",
         "stream": "http://192.168.0.105:8080/?action=stream",
-        "x": 502.265625,
-        "y": 118.75,
+        "x": 561.015625,
+        "y": 115,
         "wires": [
             [
                 "74ca4699.55b158",
@@ -78,8 +78,8 @@
         "func": "if (msg.payload === true)\n    msg.payload = \"start\";\nelse\n    msg.payload = \"stop\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 319.765625,
-        "y": 244.75,
+        "x": 457.265625,
+        "y": 286,
         "wires": [
             [
                 "23fc84de.5e394c"
@@ -94,8 +94,8 @@
         "func": "// initialise the counter to 0 if it doesn't exist already\nvar count = flow.get('count')||0;\ncount += 1;\n// store the value back\nflow.set('count',count);\n// make it part of the outgoing msg object\n//msg.filename=\"./capture/Capture\"+count+\".jpg\";\nmsg.filename=\"./capture/Capture.jpg\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 644.2733001708984,
-        "y": 214.88118743896484,
+        "x": 703.0233001708984,
+        "y": 211.13118743896484,
         "wires": [
             [
                 "b1f5a26c.3b5b9"
@@ -108,12 +108,11 @@
         "z": "662f0303.b7dadc",
         "operation": "description",
         "name": "",
-        "x": 717.265625,
-        "y": 116.75,
+        "x": 776.015625,
+        "y": 113,
         "wires": [
             [
-                "9b2a4466.824c88",
-                "86a17ec9.f86e7"
+                "9b2a4466.824c88"
             ]
         ]
     },
@@ -121,7 +120,7 @@
         "id": "9b2a4466.824c88",
         "type": "ui_text",
         "z": "662f0303.b7dadc",
-        "group": "202b47a1.5a76a8",
+        "group": "b94790e0.3bebd",
         "order": 0,
         "width": 0,
         "height": 0,
@@ -129,25 +128,9 @@
         "label": "Description",
         "format": "{{msg.payload}}",
         "layout": "row-spread",
-        "x": 954.765625,
-        "y": 149.75,
+        "x": 1013.515625,
+        "y": 146,
         "wires": []
-    },
-    {
-        "id": "86a17ec9.f86e7",
-        "type": "function",
-        "z": "662f0303.b7dadc",
-        "name": "",
-        "func": "msg.payload = \"I see \"+ msg.payload;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 926.765625,
-        "y": 234.75,
-        "wires": [
-            [
-                "2219e3db.40cabc"
-            ]
-        ]
     },
     {
         "id": "b1f5a26c.3b5b9",
@@ -158,21 +141,8 @@
         "appendNewline": false,
         "createDir": true,
         "overwriteFile": "true",
-        "x": 811.7718276977539,
-        "y": 282.4212875366211,
-        "wires": []
-    },
-    {
-        "id": "2219e3db.40cabc",
-        "type": "mqtt out",
-        "z": "662f0303.b7dadc",
-        "name": "",
-        "topic": "lcd/text",
-        "qos": "",
-        "retain": "",
-        "broker": "e0439e32.6da6e",
-        "x": 1083.765625,
-        "y": 329.75,
+        "x": 870.5218276977539,
+        "y": 278.6712875366211,
         "wires": []
     },
     {
@@ -185,44 +155,10 @@
         "width": "6"
     },
     {
-        "id": "202b47a1.5a76a8",
-        "type": "ui_group",
-        "z": "",
-        "name": "Camera Controls",
-        "tab": "8070ca92.5840f8",
-        "disp": true,
-        "width": "6"
-    },
-    {
-        "id": "e0439e32.6da6e",
-        "type": "mqtt-broker",
-        "z": "",
-        "broker": "localhost",
-        "port": "1883",
-        "clientid": "",
-        "usetls": false,
-        "compatmode": true,
-        "keepalive": "60",
-        "cleansession": true,
-        "willTopic": "",
-        "willQos": "0",
-        "willPayload": "",
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthPayload": ""
-    },
-    {
         "id": "c1b73914.51d068",
         "type": "ui_tab",
         "z": "",
         "name": "Vision",
-        "icon": "dashboard"
-    },
-    {
-        "id": "8070ca92.5840f8",
-        "type": "ui_tab",
-        "z": "",
-        "name": "RaspiZeroBot",
         "icon": "dashboard"
     }
 ]
