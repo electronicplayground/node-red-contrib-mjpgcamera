@@ -1,0 +1,142 @@
+[
+    {
+        "id": "a8357f38.a529f",
+        "type": "tab",
+        "label": "Camera Controls",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "f82c80b5.80fe2",
+        "type": "ui_switch",
+        "z": "a8357f38.a529f",
+        "name": "Toggle Camera",
+        "label": "Toggle Camera",
+        "group": "b94790e0.3bebd",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 92.765625,
+        "y": 234,
+        "wires": [
+            [
+                "6a0d9058.a8707",
+                "7aea0b27.f00274"
+            ]
+        ]
+    },
+    {
+        "id": "6a0d9058.a8707",
+        "type": "function",
+        "z": "a8357f38.a529f",
+        "name": "",
+        "func": "if (msg.payload === true)\n    return [msg, null];\nreturn [null, msg];",
+        "outputs": "2",
+        "noerr": 0,
+        "x": 376.765625,
+        "y": 304,
+        "wires": [
+            [
+                "71fb0607.05d8c8"
+            ],
+            [
+                "9f2ece20.b5fa8"
+            ]
+        ]
+    },
+    {
+        "id": "9f2ece20.b5fa8",
+        "type": "exec",
+        "z": "a8357f38.a529f",
+        "command": "sudo pkill mjpg_streamer",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "stop camera",
+        "x": 621.265625,
+        "y": 306,
+        "wires": [
+            [
+                "7aea0b27.f00274"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "71fb0607.05d8c8",
+        "type": "exec",
+        "z": "a8357f38.a529f",
+        "command": "./mjpgstreamer.sh",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "Start camera",
+        "x": 623.765625,
+        "y": 234.5,
+        "wires": [
+            [
+                "7aea0b27.f00274"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "7aea0b27.f00274",
+        "type": "function",
+        "z": "a8357f38.a529f",
+        "name": "Refresh Page",
+        "func": "msg.payload = \"\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 891.265625,
+        "y": 138,
+        "wires": [
+            [
+                "da71fba5.0ca158"
+            ]
+        ]
+    },
+    {
+        "id": "da71fba5.0ca158",
+        "type": "ui_ui_control",
+        "z": "a8357f38.a529f",
+        "name": "ui control",
+        "x": 1094.765625,
+        "y": 129,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b94790e0.3bebd",
+        "type": "ui_group",
+        "z": "",
+        "name": "Camera Controls",
+        "tab": "c1b73914.51d068",
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "c1b73914.51d068",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Vision",
+        "icon": "dashboard"
+    }
+]
