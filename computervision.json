@@ -1,0 +1,99 @@
+[
+    {
+        "id": "ed3764de.c78738",
+        "type": "tab",
+        "label": "Flow 2"
+    },
+    {
+        "id": "9d253173.fc14e",
+        "type": "mjpg-consumer",
+        "z": "ed3764de.c78738",
+        "name": "",
+        "stream": "http://192.168.0.104:8080/?action=stream",
+        "x": 517,
+        "y": 142,
+        "wires": [
+            [
+                "fe8be91c.c55288",
+                "7ba00807.f99d78"
+            ]
+        ]
+    },
+    {
+        "id": "68ff97a8.5eee48",
+        "type": "inject",
+        "z": "ed3764de.c78738",
+        "name": "",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 176.5,
+        "y": 137,
+        "wires": [
+            [
+                "9d253173.fc14e"
+            ]
+        ]
+    },
+    {
+        "id": "41af6196.e23d7",
+        "type": "debug",
+        "z": "ed3764de.c78738",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 826.5,
+        "y": 456,
+        "wires": []
+    },
+    {
+        "id": "d7c9922.2fa697",
+        "type": "inject",
+        "z": "ed3764de.c78738",
+        "name": "",
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 170,
+        "y": 256,
+        "wires": [
+            [
+                "9d253173.fc14e"
+            ]
+        ]
+    },
+    {
+        "id": "fe8be91c.c55288",
+        "type": "file",
+        "z": "ed3764de.c78738",
+        "name": "",
+        "filename": "Capture.jpg",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "x": 811.5,
+        "y": 206,
+        "wires": []
+    },
+    {
+        "id": "7ba00807.f99d78",
+        "type": "Computer Vision",
+        "z": "ed3764de.c78738",
+        "operation": "description",
+        "name": "",
+        "x": 493,
+        "y": 437,
+        "wires": [
+            [
+                "41af6196.e23d7"
+            ]
+        ]
+    }
+]
