@@ -54,8 +54,9 @@ module.exports = function(RED) {
         var node = this;
         var streamPipe;
         var camera;
-        var sendData = false;
+        var sendData = true;
         var isCameraOn = false;
+        var buffer;
 
         this.on('input', function(msg) {
            if (streamPipe == null){
@@ -65,7 +66,7 @@ module.exports = function(RED) {
                       //console.log(frame);
                       return frame.data;
                     },
-                    onData: pipeFrame
+                    onData: saveFrame
                   });
             }
 
@@ -78,50 +79,63 @@ module.exports = function(RED) {
 
             }
 
-            if (msg.payload == "start"){
-              startCamera();
-              camera.pipe(streamPipe);
-              sendData = true;
-            }
-
-            if (msg.payload == "stop"){
-              stopCamera();
-              sendData = false;
-            }
-
-           if (msg.payload == true){
-              sendData = true;
-            }
-            else {
-              sendData = false;
-            }
+            handleMessage(msg);
         });
 
-        var pipeFrame = function(data){
-          if (sendData == true){
-            var msg = {};
-            msg.payload = data;
-            node.send(msg);
+        function handleMessage(msg) {
+          console.log("message: "+JSON.stringify(msg));
+
+          if (msg.payload == "start"){
+            startCamera();
+            camera.pipe(streamPipe);
+            sendData = true;
+          }
+
+          if (msg.payload == "stop"){
+            stopCamera();
             sendData = false;
           }
         }
 
-        var startCamera = function(){
+        let timer;
+        function setupStreamInterval() {
+            console.log("interval "+config.interval * 1000);
+            clearInterval(timer);
+            if (config.interval)
+              timer = setInterval(sendBuffer, config.interval * 1000);
+        }
 
+        function sendBuffer() {
+          if (sendData == true){
+            var msg = {};
+            msg.payload = buffer;
+            node.send(msg);
+            console.log("send data on timer");
+          }
+        }
+
+        var saveFrame = function(data){
+          buffer = data;
+        }
+
+        var startCamera = function(){
             if (isCameraOn == true)
                 return;
 
+            setupStreamInterval();
             isCameraOn = true;
             camera.start();
         }
 
         var stopCamera = function(){
           camera.stop();
+          clearInterval(timer);
           isCameraOn = false;
         }
 
         this.on('close', function(){
           console.log("closing");
+          clearInterval(timer);
           if (camera != null) {
               camera.stop();
           }
