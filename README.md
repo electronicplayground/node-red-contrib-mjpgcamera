@@ -15,17 +15,26 @@ A node that consumes a mjpeg stream and outputs the latest saved frame as buffer
 
 <p>To enable output send "start" as payload (Can use an inject node or a dashboard switch). To disable, send "stop".</p>
 
-To install:
+1. Install from npm
 
-``` bash
-git clone https://github.com/electronicplayground/node-red-contrib-mjpgcamera.git
-cd node-red-contrib-mjpgcamera
-npm link
-```
+   ```shell
+   cd %Node-RED%
+   npm install node-red-contrib-mjpgcamera
+   ```
 
+   ​
 
+2. To install from git:
 
-To add to Node-RED (%Node-RED% is your Node-RED user folder):
+   ```shell
+   git clone https://github.com/electronicplayground/node-red-contrib-mjpgcamera.git
+   cd node-red-contrib-mjpgcamera
+   npm link
+   ```
+
+   ​
+
+​	Then add to Node-RED:
 
 ```shell
 cd %Node-RED%
