@@ -60,10 +60,9 @@ module.exports = function(RED) {
 
         this.on('input', function(msg) {
            if (streamPipe == null){
-              console.log("create streampipe");
+              console.log("mjpg-consumer: create streampipe: "+config.stream);
               streamPipe = new StreamPipe({
                     transform: function(frame) {
-                      //console.log(frame);
                       return frame.data;
                     },
                     onData: saveFrame
@@ -83,7 +82,7 @@ module.exports = function(RED) {
         });
 
         function handleMessage(msg) {
-          console.log("message: "+JSON.stringify(msg));
+          //console.log("message: "+JSON.stringify(msg));
 
           if (msg.payload == "start"){
             startCamera();
@@ -99,7 +98,7 @@ module.exports = function(RED) {
 
         let timer;
         function setupStreamInterval() {
-            console.log("interval "+config.interval * 1000);
+            console.log("mjpg-consumer: output interval (milliseconds): "+config.interval * 1000);
             clearInterval(timer);
             if (config.interval)
               timer = setInterval(sendBuffer, config.interval * 1000);
@@ -110,7 +109,6 @@ module.exports = function(RED) {
             var msg = {};
             msg.payload = buffer;
             node.send(msg);
-            console.log("send data on timer");
           }
         }
 
@@ -134,7 +132,7 @@ module.exports = function(RED) {
         }
 
         this.on('close', function(){
-          console.log("closing");
+          console.log("mjpg-consumer: close stream");
           clearInterval(timer);
           if (camera != null) {
               camera.stop();

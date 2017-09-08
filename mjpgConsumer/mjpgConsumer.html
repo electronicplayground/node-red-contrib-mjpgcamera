@@ -37,8 +37,11 @@
 </script>
 
 <script type="text/x-red" data-help-name="mjpg-consumer">
-    <p>A node that pipes mjpeg streams as buffer on payload when input is true.</p>
-    <p>Stream Uri should be a valid mjpg streamer source</p>
+    <p>A node that consumes a mjpeg stream and outputs the latest saved frame as buffer</p>
+    <p><b>Stream</b> should be the address of the stream</p>
+    <p><b>Streaming interval</b> should be the number of seconds between buffer outputs</p>
+    <p>For instructions on how to install and run mjpg_streamer go <a href="https://github.com/jacksonliam/mjpg-streamer">here</a>
+    <p>To enable output send "start" as payload (Can use an inject node or a dashboard switch). To disable, send "stop".</p>
     <div>
 
     </div>
