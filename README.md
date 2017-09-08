@@ -15,6 +15,25 @@ A node that consumes a mjpeg stream and outputs the latest saved frame as buffer
 
 <p>To enable output send "start" as payload (Can use an inject node or a dashboard switch). To disable, send "stop".</p>
 
+To install:
+
+``` bash
+git clone https://github.com/electronicplayground/node-red-contrib-mjpgcamera.git
+cd node-red-contrib-mjpgcamera
+npm link
+```
+
+
+
+To add to Node-RED (%Node-RED% is your Node-RED user folder):
+
+```shell
+cd %Node-RED%
+npm link node-red-contrib-mjpgcamera
+```
+
+
+
 Import the JSON below after installing the node to output the frame buffer to debug node and save frame as file. Edit mjpgConsumer to match your values (stream uri and output interval) and the file node to match the location to save the stream to as .JPG.
 
 ```json

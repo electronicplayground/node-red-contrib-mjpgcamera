@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-mjpgcamera",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Node-RED nodes for mjpg_streamer",
   "author": "Florin Baroga",
   "repository": {
