@@ -30,16 +30,11 @@ A node that consumes a mjpeg stream and outputs the latest saved frame as buffer
    git clone https://github.com/electronicplayground/node-red-contrib-mjpgcamera.git
    cd node-red-contrib-mjpgcamera
    npm link
+   cd %Node-RED%
+   npm link node-red-contrib-mjpgcamera
    ```
 
    ​
-
-​	Then add to Node-RED:
-
-```shell
-cd %Node-RED%
-npm link node-red-contrib-mjpgcamera
-```
 
 
 
